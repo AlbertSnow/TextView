@@ -1,3 +1,4 @@
+include ':ThirdTextView'
 include ':popTextView'
 include ':app'
 rootProject.name = "TextView"
