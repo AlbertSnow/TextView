@@ -29,7 +29,7 @@ class CursorHandle extends View {
 
         mHelper = selectableTextHelper;
         mCursorHandleColor = handleColor;
-        mCursorHandleSize = handleSize;
+        initSize(handleSize);
 
         this.isLeft = isLeft;
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -40,6 +40,13 @@ class CursorHandle extends View {
         mPopupWindow.setWidth(mWidth + mPadding * 2);
         mPopupWindow.setHeight(mHeight + mPadding / 2);
         invalidate();
+    }
+
+    private void initSize(int handleSize) {
+        mCursorHandleSize = handleSize;
+        mCircleRadius = mCursorHandleSize / 2;
+        mWidth = mCircleRadius * 2;
+        mHeight = mCircleRadius * 2;
     }
 
     public boolean isLeft() {
