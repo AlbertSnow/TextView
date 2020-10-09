@@ -6,7 +6,7 @@ package com.jaeger.library;
  * Email: chjie.jaeger@gmail.com
  * GitHub: https://github.com/laobie
  */
-public class SelectionInfo {
+class SelectionInfo {
     public int mStart;
     public int mEnd;
     public String mSelectionContent;
