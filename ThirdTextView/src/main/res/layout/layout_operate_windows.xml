@@ -1,20 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="300dp"
-    android:background="#FF3300"
-    android:orientation="horizontal"
+    android:layout_height="wrap_content"
     android:paddingLeft="5dp"
     android:paddingRight="5dp">
 
-    <TextView
-        android:id="@+id/tv_copy"
-        android:text="@string/copy"
-        style="@style/OperateTextView"/>
+    <LinearLayout
+        android:layout_width="80dp"
+        android:layout_height="300dp"
+        android:background="#FF3300"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tv_select_all"
-        android:text="@string/select_all"
-        style="@style/OperateTextView"/>
+        <TextView
+            android:id="@+id/tv_copy"
+            style="@style/OperateTextView"
+            android:text="@string/copy" />
+
+        <TextView
+            android:id="@+id/tv_select_all"
+            style="@style/OperateTextView"
+            android:text="@string/select_all" />
+
+    </LinearLayout>
+
 
 </LinearLayout>

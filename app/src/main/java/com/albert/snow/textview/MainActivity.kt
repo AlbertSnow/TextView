@@ -10,12 +10,12 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.jaeger.library.OnSelectListener
-import com.jaeger.library.SelectableTextHelper
+import com.jaeger.library.SelectableTextManager
 
 class MainActivity : AppCompatActivity() {
 
     private var mTvTest: TextView? = null
-    private var mSelectableTextHelper: SelectableTextHelper? = null
+    private var mSelectableTextHelper: SelectableTextManager? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         //mTvTest.setTextIsSelectable(true);
 
         //mTvTest.setTextIsSelectable(true);
-        mSelectableTextHelper = SelectableTextHelper.Builder(mTvTest)
+        mSelectableTextHelper = SelectableTextManager.Builder(mTvTest)
                 .setSelectedColor(Color.parseColor("#FF0000"))
                 .setCursorHandleSizeInDp(20f)
                 .setCursorHandleColor(Color.parseColor("#0000FF"))

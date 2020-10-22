@@ -18,7 +18,7 @@ import android.widget.TextView;
  * Email: chjie.jaeger@gmail.com
  * GitHub: https://github.com/laobie
  */
-public class SelectableTextHelper {
+public class SelectableTextManager {
 
     private final static int DEFAULT_SELECTION_LENGTH = 1;
     private static final int DEFAULT_SHOW_DURATION = 100;
@@ -47,7 +47,7 @@ public class SelectableTextHelper {
     private int mCursorHandleColor;
     private int mCursorHandleSizeInDp;
 
-    public SelectableTextHelper(Builder builder) {
+    public SelectableTextManager(Builder builder) {
         mTextView = builder.mTextView;
         mContext = mTextView.getContext();
         mSelectedColor = builder.mSelectedColor;
@@ -138,8 +138,8 @@ public class SelectableTextHelper {
                 if (mSelectListener != null) {
                     mSelectListener.onTextSelected(mSelectionInfo.mSelectionContent);
                 }
-                SelectableTextHelper.this.resetSelectionInfo();
-                SelectableTextHelper.this.hideSelectView();
+                SelectableTextManager.this.resetSelectionInfo();
+                SelectableTextManager.this.hideSelectView();
             }
         }, new View.OnClickListener() {
             @Override
@@ -315,8 +315,8 @@ public class SelectableTextHelper {
             return this;
         }
 
-        public SelectableTextHelper build() {
-            return new SelectableTextHelper(this);
+        public SelectableTextManager build() {
+            return new SelectableTextManager(this);
         }
     }
 }

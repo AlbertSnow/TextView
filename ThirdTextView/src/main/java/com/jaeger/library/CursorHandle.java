@@ -22,12 +22,12 @@ class CursorHandle extends View {
     private int mPadding = 25;
     private boolean isLeft;
 
-    private SelectableTextHelper mHelper;
+    private SelectableTextManager mHelper;
 
-    public CursorHandle(Context context, boolean isLeft, int handleColor, int handleSize, SelectableTextHelper selectableTextHelper) {
+    public CursorHandle(Context context, boolean isLeft, int handleColor, int handleSize, SelectableTextManager selectableTextManager) {
         super(context);
 
-        mHelper = selectableTextHelper;
+        mHelper = selectableTextManager;
         mCursorHandleColor = handleColor;
         initSize(handleSize);
 
