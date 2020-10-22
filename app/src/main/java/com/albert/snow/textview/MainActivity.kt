@@ -1,6 +1,5 @@
 package com.albert.snow.textview
 
-import android.graphics.Color
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableStringBuilder
@@ -9,13 +8,10 @@ import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.jaeger.library.OnSelectListener
-import com.jaeger.library.SelectableTextManager
 
 class MainActivity : AppCompatActivity() {
 
     private var mTvTest: TextView? = null
-    private var mSelectableTextHelper: SelectableTextManager? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,16 +21,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun initView() {
         mTvTest = findViewById(R.id.main_second_tv) as TextView
-        //mTvTest.setTextIsSelectable(true);
-
-        //mTvTest.setTextIsSelectable(true);
-        mSelectableTextHelper = SelectableTextManager.Builder(mTvTest)
-                .setSelectedColor(Color.parseColor("#FF0000"))
-                .setCursorHandleSizeInDp(20f)
-                .setCursorHandleColor(Color.parseColor("#0000FF"))
-                .build()
-
-        mSelectableTextHelper?.setSelectListener(OnSelectListener { })
 
 
         addClickableSpan(mTvTest!!)

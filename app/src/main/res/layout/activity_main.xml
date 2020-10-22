@@ -7,7 +7,7 @@
     android:padding="10dp"
     tools:context=".MainActivity">
 
-    <com.albert.snow.poptextview.PopWindowTextView
+    <TextView
         android:id="@+id/main_custom_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -19,7 +19,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+    <com.jaeger.library.SelectableTextView
         android:id="@+id/main_second_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

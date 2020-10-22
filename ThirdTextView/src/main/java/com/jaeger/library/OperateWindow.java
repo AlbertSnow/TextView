@@ -21,7 +21,7 @@ class OperateWindow {
     private int mHeight;
     private Context mContext;
 
-    public OperateWindow(final Context context, View.OnClickListener copyListener, View.OnClickListener selectAllListener) {
+    public OperateWindow(final Context context) {
         mContext = context;
         View contentView = LayoutInflater.from(context).inflate(R.layout.layout_operate_windows, null);
         contentView.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
@@ -30,16 +30,13 @@ class OperateWindow {
         mHeight = contentView.getMeasuredHeight();
         mWindow = new PopupWindow(contentView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, false);
         mWindow.setClippingEnabled(false);
-
-        contentView.findViewById(R.id.tv_copy).setOnClickListener(copyListener);
-        contentView.findViewById(R.id.tv_select_all).setOnClickListener(selectAllListener);
     }
 
-    public void show(TextView mTextView, SelectionInfo mSelectionInfo) {
+    public void show(TextView mTextView, SelectionInfoEvent mSelectionInfoEvent) {
         mTextView.getLocationInWindow(mTempCoors);
         Layout layout = mTextView.getLayout();
-        int posX = (int) layout.getPrimaryHorizontal(mSelectionInfo.mStart) + mTempCoors[0];
-        int posY = layout.getLineTop(layout.getLineForOffset(mSelectionInfo.mStart)) + mTempCoors[1] - mHeight - 16;
+        int posX = (int) layout.getPrimaryHorizontal(mSelectionInfoEvent.getTextIndexBegin()) + mTempCoors[0];
+        int posY = layout.getLineTop(layout.getLineForOffset(mSelectionInfoEvent.getTextIndexBegin())) + mTempCoors[1] - mHeight - 16;
         if (posX <= 0) posX = 16;
         if (posY < 0) posY = 16;
         if (posX + mWidth > TextLayoutUtil.getScreenWidth(mContext)) {

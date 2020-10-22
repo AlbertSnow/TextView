@@ -13,7 +13,6 @@ class CursorHandle extends View {
 
     private PopupWindow mPopupWindow;
     private Paint mPaint;
-    private int mCursorHandleColor;
     private int mCursorHandleSize;
 
     private int mCircleRadius = mCursorHandleSize / 2;
@@ -22,18 +21,17 @@ class CursorHandle extends View {
     private int mPadding = 25;
     private boolean isLeft;
 
-    private SelectableTextManager mHelper;
+    private Manager mHelper;
 
-    public CursorHandle(Context context, boolean isLeft, int handleColor, int handleSize, SelectableTextManager selectableTextManager) {
+    public CursorHandle(Context context, boolean isLeft, int handleColor, int handleSize) {
         super(context);
 
-        mHelper = selectableTextManager;
-        mCursorHandleColor = handleColor;
+        mHelper = Manager.getInstance();
         initSize(handleSize);
 
         this.isLeft = isLeft;
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        mPaint.setColor(mCursorHandleColor);
+        mPaint.setColor(handleColor);
 
         mPopupWindow = new PopupWindow(this);
         mPopupWindow.setClippingEnabled(false);
@@ -75,8 +73,8 @@ class CursorHandle extends View {
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                mBeforeDragStart = mHelper.getSelectionInfo().mStart;
-                mBeforeDragEnd = mHelper.getSelectionInfo().mEnd;
+                mBeforeDragStart = mHelper.getSelectionInfo().getTextIndexBegin();
+                mBeforeDragEnd = mHelper.getSelectionInfo().getTextIndexEnd();
                 mAdjustX = (int) event.getX();
                 mAdjustY = (int) event.getY();
                 break;
@@ -113,9 +111,9 @@ class CursorHandle extends View {
         mHelper.getTextView().getLocationInWindow(mTempCoors);
         int oldOffset;
         if (isLeft) {
-            oldOffset = mHelper.getSelectionInfo().mStart;
+            oldOffset = mHelper.getSelectionInfo().getTextIndexBegin();
         } else {
-            oldOffset = mHelper.getSelectionInfo().mEnd;
+            oldOffset = mHelper.getSelectionInfo().getTextIndexEnd();
         }
 
         y -= mTempCoors[1];
@@ -135,7 +133,6 @@ class CursorHandle extends View {
                 } else {
                     mHelper.selectText(offset, -1);
                 }
-                updateCursorHandle();
             } else {
                 if (offset < mBeforeDragStart) {
                     CursorHandle handle = mHelper.getCursorHandle(true);
@@ -147,8 +144,8 @@ class CursorHandle extends View {
                 } else {
                     mHelper.selectText(mBeforeDragStart, offset);
                 }
-                updateCursorHandle();
             }
+            updateCursorHandle();
         }
     }
 
@@ -156,11 +153,11 @@ class CursorHandle extends View {
         mHelper.getTextView().getLocationInWindow(mTempCoors);
         Layout layout = mHelper.getTextView().getLayout();
         if (isLeft) {
-            mPopupWindow.update((int) layout.getPrimaryHorizontal(mHelper.getSelectionInfo().mStart) - mWidth + getExtraX(),
-                    layout.getLineBottom(layout.getLineForOffset(mHelper.getSelectionInfo().mStart)) + getExtraY(), -1, -1);
+            mPopupWindow.update((int) layout.getPrimaryHorizontal(mHelper.getSelectionInfo().getTextIndexBegin()) - mWidth + getExtraX(),
+                    layout.getLineBottom(layout.getLineForOffset(mHelper.getSelectionInfo().getTextIndexBegin())) + getExtraY(), -1, -1);
         } else {
-            mPopupWindow.update((int) layout.getPrimaryHorizontal(mHelper.getSelectionInfo().mEnd) + getExtraX(),
-                    layout.getLineBottom(layout.getLineForOffset(mHelper.getSelectionInfo().mEnd)) + getExtraY(), -1, -1);
+            mPopupWindow.update((int) layout.getPrimaryHorizontal(mHelper.getSelectionInfo().getTextIndexEnd()) + getExtraX(),
+                    layout.getLineBottom(layout.getLineForOffset(mHelper.getSelectionInfo().getTextIndexEnd())) + getExtraY(), -1, -1);
         }
     }
 
