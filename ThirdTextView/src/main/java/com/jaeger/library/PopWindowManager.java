@@ -22,7 +22,7 @@ public class PopWindowManager {
     private boolean isHide = true;
 
     public void init(Context mContext) {
-        TextLayoutUtil.dp2px(mContext,24);
+        mCursorHandleSizeInDp = TextLayoutUtil.dp2px(mContext,24);
     }
 
 
