@@ -1,10 +1,7 @@
 package com.jaeger.library;
 
 import android.app.Application;
-import android.text.Spannable;
-import android.text.Spanned;
 import android.text.TextUtils;
-import android.text.style.BackgroundColorSpan;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -13,15 +10,10 @@ public class ClickableTextManager {
 
     private static final ClickableTextManager instance = new ClickableTextManager();
 
-
-    private int mSelectedColor =  0xFF04BA69;
-
     private Application mContext;
 
     private SelectionInfoEvent mSelectEvent = null;
     private PopWindowManager popWindowManager = new PopWindowManager();
-    private Spannable mSpannable;
-    private BackgroundColorSpan mSpan;
 
     public static ClickableTextManager getInstance() {
         return instance;
@@ -49,8 +41,8 @@ public class ClickableTextManager {
     }
 
     public void hide() {
-        popWindowManager.hide();
         resetSelectionInfo();
+        popWindowManager.hide();
     }
 
     public void destroy() {
@@ -59,28 +51,12 @@ public class ClickableTextManager {
     }
 
     public void resetSelectionInfo() {
-        mSelectEvent.setText(null);
-        if (mSpannable != null && mSpan != null) {
-            mSpannable.removeSpan(mSpan);
-            mSpan = null;
-        }
+        mSelectEvent.setText("");
+        mSelectEvent.getTextView().removeSelectBackground();
     }
-
 
     public void selectText(int startPos, int endPos) {
         mSelectEvent.update(startPos, endPos);
-
-        CharSequence charSequence = mSelectEvent.getTextView().getText();
-        if (TextUtils.isEmpty(charSequence) || !(charSequence instanceof Spannable)) {
-            return;
-        } else {
-            mSpannable = (Spannable) charSequence;
-        }
-        if (mSpan == null) {
-            mSpan = new BackgroundColorSpan(mSelectedColor);
-        }
-
-        mSpannable.setSpan(mSpan, mSelectEvent.getTextIndexBegin(), mSelectEvent.getTextIndexEnd(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
     }
 
     public SelectionInfoEvent getSelectionInfo() {
@@ -97,10 +73,6 @@ public class ClickableTextManager {
 
     public CursorHandle getCursorHandle(boolean isLeft) {
         return popWindowManager.getCursorHandle(isLeft);
-    }
-
-    public PopWindowManager getPopWindowManager() {
-        return popWindowManager;
     }
 
 }

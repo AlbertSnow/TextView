@@ -1,7 +1,6 @@
 package com.jaeger.library
 
 import android.text.TextUtils
-import android.widget.TextView
 
 /**
  * Created by Jaeger on 16/8/30.
@@ -12,7 +11,7 @@ import android.widget.TextView
 data class SelectionInfoEvent(var isLongClick: Boolean = true,
                               var touchX: Int = 0, var touchY: Int = 0,
                               var textIndexBegin: Int = 0, var textIndexEnd: Int = 0,
-                              var text: String? = "", var textView: TextView) {
+                              var text: String? = "", var textView: SelectableTextView) {
     
     fun update(startPos: Int, endPos: Int) {
         if (startPos != -1) {
@@ -33,6 +32,9 @@ data class SelectionInfoEvent(var isLongClick: Boolean = true,
             text = textView.text.subSequence(textIndexBegin, textIndexEnd)
                 .toString()
         }
+
+        textView.selectText(textIndexBegin, textIndexEnd);
+
     }
     
 }

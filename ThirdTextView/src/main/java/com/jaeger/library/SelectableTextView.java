@@ -1,8 +1,11 @@
 package com.jaeger.library;
 
 import android.content.Context;
+import android.text.Spannable;
 import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.BackgroundColorSpan;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -17,6 +20,8 @@ public class SelectableTextView extends AppCompatTextView {
 
     private int mTouchX;
     private int mTouchY;
+    private Spannable mSpannable;
+    private BackgroundColorSpan mSpan;
 
     public SelectableTextView(@NonNull Context context) {
         super(context);
@@ -88,6 +93,27 @@ public class SelectableTextView extends AppCompatTextView {
         } else {
             super.setText(text, type);
         }
+    }
+
+    public void removeSelectBackground() {
+        if (mSpannable != null && mSpan != null) {
+            mSpannable.removeSpan(mSpan);
+            mSpan = null;
+        }
+    }
+
+    public void selectText(int textIndexBegin, int textIndexEnd) {
+        CharSequence charSequence = getText();
+        if (TextUtils.isEmpty(charSequence) || !(charSequence instanceof Spannable)) {
+            return;
+        } else {
+            mSpannable = (Spannable) charSequence;
+        }
+        if (mSpan == null) {
+            int mSelectedColor = 0xFF04BA69;
+            mSpan = new BackgroundColorSpan(mSelectedColor);
+        }
+        mSpannable.setSpan(mSpan, textIndexBegin, textIndexEnd, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
     }
 
 }
