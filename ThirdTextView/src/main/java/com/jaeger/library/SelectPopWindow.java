@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.albert.snow.thirdtextview.R;
 
-class OperateWindow {
+class SelectPopWindow {
 
     private PopupWindow mWindow;
     private int[] mTempCoors = new int[2];
@@ -21,7 +21,7 @@ class OperateWindow {
     private int mHeight;
     private Context mContext;
 
-    public OperateWindow(final Context context) {
+    public SelectPopWindow(final Context context) {
         mContext = context;
         View contentView = LayoutInflater.from(context).inflate(R.layout.layout_operate_windows, null);
         contentView.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),

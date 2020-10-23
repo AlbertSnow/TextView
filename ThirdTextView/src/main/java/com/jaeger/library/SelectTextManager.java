@@ -113,11 +113,11 @@ public class SelectTextManager {
         return mSelectEvent.getTextView();
     }
 
-    public OperateWindow getOperateView() {
+    public SelectPopWindow getOperateView() {
         return popWindowManager.getOperateView();
     }
 
-    public CursorHandle getCursorHandle(boolean isLeft) {
+    public CursorHandleWindow getCursorHandle(boolean isLeft) {
         return popWindowManager.getCursorHandle(isLeft);
     }
 

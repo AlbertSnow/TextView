@@ -6,9 +6,9 @@ import android.view.ViewTreeObserver;
 public class PopWindowManager {
     private static final String TAG = "ClickableText";
 
-    private CursorHandle mStartHandle;
-    private CursorHandle mEndHandle;
-    private OperateWindow mOperateWindow;
+    private CursorHandleWindow mStartHandle;
+    private CursorHandleWindow mEndHandle;
+    private SelectPopWindow mSelectPopWindow;
 
     private int mCursorHandleColor =  0xFF1379D6;
     private int mCursorHandleSizeInDp = 0;
@@ -32,21 +32,21 @@ public class PopWindowManager {
         hide();
         isShow = true;
 
-        if (mStartHandle == null) mStartHandle = new CursorHandle(mContext, true, mCursorHandleColor, mCursorHandleSizeInDp);
-        if (mEndHandle == null) mEndHandle = new CursorHandle(mContext, false, mCursorHandleColor, mCursorHandleSizeInDp);
-        if (mOperateWindow == null) mOperateWindow = new OperateWindow(mContext);
+        if (mStartHandle == null) mStartHandle = new CursorHandleWindow(mContext, true, mCursorHandleColor, mCursorHandleSizeInDp);
+        if (mEndHandle == null) mEndHandle = new CursorHandleWindow(mContext, false, mCursorHandleColor, mCursorHandleSizeInDp);
+        if (mSelectPopWindow == null) mSelectPopWindow = new SelectPopWindow(mContext);
 
         mEndHandle.show();
         mStartHandle.show();
-        mOperateWindow.show(event);
+        mSelectPopWindow.show(event);
 
         event.getTextView().getViewTreeObserver().addOnScrollChangedListener(mOnScrollChangedListener);
     }
 
     public void hide() {
         isShow = false;
-        if (mOperateWindow != null) {
-            mOperateWindow.dismiss();
+        if (mSelectPopWindow != null) {
+            mSelectPopWindow.dismiss();
         }
         if (mStartHandle != null) {
             mStartHandle.dismiss();
@@ -63,7 +63,7 @@ public class PopWindowManager {
         hide();
         mStartHandle = null;
         mEndHandle = null;
-        mOperateWindow = null;
+        mSelectPopWindow = null;
     }
 
     public boolean isShow() {
@@ -73,7 +73,7 @@ public class PopWindowManager {
     /**
      * Operate windows : copy, select all
      */
-    public CursorHandle getCursorHandle(boolean isLeft) {
+    public CursorHandleWindow getCursorHandle(boolean isLeft) {
         if (mStartHandle.isLeft() == isLeft) {
             return mStartHandle;
         } else {
@@ -81,8 +81,8 @@ public class PopWindowManager {
         }
     }
 
-    public OperateWindow getOperateView() {
-        return mOperateWindow;
+    public SelectPopWindow getOperateView() {
+        return mSelectPopWindow;
     }
 
 }

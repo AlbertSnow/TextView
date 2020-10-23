@@ -9,7 +9,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.PopupWindow;
 
-class CursorHandle extends View {
+class CursorHandleWindow extends View {
 
     private PopupWindow mPopupWindow;
     private Paint mPaint;
@@ -23,7 +23,7 @@ class CursorHandle extends View {
 
     private SelectTextManager mHelper;
 
-    public CursorHandle(Context context, boolean isLeft, int handleColor, int handleSize) {
+    public CursorHandleWindow(Context context, boolean isLeft, int handleColor, int handleSize) {
         super(context);
 
         mHelper = SelectTextManager.getInstance();
@@ -132,7 +132,7 @@ class CursorHandle extends View {
             mHelper.unSelectTextView();
             if (isLeft) {
                 if (offset > mBeforeDragEnd) {
-                    CursorHandle handle = mHelper.getCursorHandle(false);
+                    CursorHandleWindow handle = mHelper.getCursorHandle(false);
                     changeDirection();
                     handle.changeDirection();
                     mBeforeDragStart = mBeforeDragEnd;
@@ -143,7 +143,7 @@ class CursorHandle extends View {
                 }
             } else {
                 if (offset < mBeforeDragStart) {
-                    CursorHandle handle = mHelper.getCursorHandle(true);
+                    CursorHandleWindow handle = mHelper.getCursorHandle(true);
                     handle.changeDirection();
                     changeDirection();
                     mBeforeDragEnd = mBeforeDragStart;
