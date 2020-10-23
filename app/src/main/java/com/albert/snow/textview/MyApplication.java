@@ -3,7 +3,7 @@ package com.albert.snow.textview;
 import android.app.Application;
 import android.content.Context;
 
-import com.jaeger.library.SelectTextManager;
+import com.albert.snow.select.SelectTextManager;
 
 public class MyApplication extends Application {
     private static Application app;
