@@ -45,7 +45,7 @@ public class SelectableTextView extends AppCompatTextView {
                     return true;
                 }
 
-                Manager.getInstance().onReceive(
+                ClickableTextManager.getInstance().onReceive(
                         new SelectionInfoEvent(true, mTouchX, mTouchY,
                                 startOffset, endOffset, "", SelectableTextView.this));
                 return true;
@@ -64,7 +64,7 @@ public class SelectableTextView extends AppCompatTextView {
         setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Manager.getInstance().hide();
+                ClickableTextManager.getInstance().hide();
             }
         });
 
@@ -76,7 +76,7 @@ public class SelectableTextView extends AppCompatTextView {
 
             @Override
             public void onViewDetachedFromWindow(View v) {
-                Manager.getInstance().destroy();
+                ClickableTextManager.getInstance().destroy();
             }
         });
     }

@@ -2,13 +2,16 @@ package com.jaeger.library;
 
 import android.app.Application;
 import android.text.Spannable;
-import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.style.BackgroundColorSpan;
+import android.util.Log;
 import android.widget.TextView;
 
-public class Manager {
-    private static final Manager instance = new Manager();
+public class ClickableTextManager {
+    private static final String TAG = "ClickableText";
+
+    private static final ClickableTextManager instance = new ClickableTextManager();
 
 
     private int mSelectedColor =  0xFF04BA69;
@@ -17,27 +20,31 @@ public class Manager {
 
     private SelectionInfoEvent mSelectEvent = null;
     private PopWindowManager popWindowManager = new PopWindowManager();
+    private Spannable mSpannable;
     private BackgroundColorSpan mSpan;
 
-    public static Manager getInstance() {
+    public static ClickableTextManager getInstance() {
         return instance;
     }
 
-    private Manager() {}
+    private ClickableTextManager() {}
 
     public void init(Application context) {
         mContext = context;
         popWindowManager.init(context);
     }
 
-    public SelectionInfoEvent getSelectionInfo() {
-        return mSelectEvent;
-    }
-
-
 //    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onReceive(SelectionInfoEvent event) {
+        TextView textView = event.getTextView();
+        CharSequence charSequence = textView.getText();
+        if (TextUtils.isEmpty(charSequence) || event.getTextIndexBegin() >= charSequence.length()) {
+            Log.e(TAG, "Failure:  click not fit condition");
+            return;
+        }
+
         mSelectEvent = event;
+        selectText(event.getTextIndexBegin(), event.getTextIndexEnd());
         popWindowManager.show(mContext, event);
     }
 
@@ -46,56 +53,38 @@ public class Manager {
         resetSelectionInfo();
     }
 
+    public void destroy() {
+        resetSelectionInfo();
+        popWindowManager.destroy();
+    }
+
     public void resetSelectionInfo() {
         mSelectEvent.setText(null);
-//        if (mSpannable != null && mSpan != null) {
-//            mSpannable.removeSpan(mSpan);
-//            mSpan = null;
-//        }
+        if (mSpannable != null && mSpan != null) {
+            mSpannable.removeSpan(mSpan);
+            mSpan = null;
+        }
     }
 
 
     public void selectText(int startPos, int endPos) {
-        if (startPos != -1) {
-            mSelectEvent.setTextIndexBegin(startPos);
-        }
-        if (endPos != -1) {
-            mSelectEvent.setTextIndexEnd(endPos);
-        }
-
-        if (mSelectEvent.getTextIndexBegin() > mSelectEvent.getTextIndexEnd()) {
-            int temp = mSelectEvent.getTextIndexBegin();
-            mSelectEvent.setTextIndexBegin(mSelectEvent.getTextIndexEnd());
-            mSelectEvent.setTextIndexEnd(temp);
-        }
+        mSelectEvent.update(startPos, endPos);
 
         CharSequence charSequence = mSelectEvent.getTextView().getText();
-        if (charSequence == null) {
+        if (TextUtils.isEmpty(charSequence) || !(charSequence instanceof Spannable)) {
             return;
-        }
-
-
-        Spannable spannable;
-        if (charSequence instanceof Spannable) {
-            spannable = (Spannable) charSequence;
         } else {
-            spannable = new SpannableStringBuilder(charSequence);
+            mSpannable = (Spannable) charSequence;
         }
-
         if (mSpan == null) {
             mSpan = new BackgroundColorSpan(mSelectedColor);
         }
 
-        mSelectEvent.setText(
-                spannable.subSequence(mSelectEvent.getTextIndexBegin(), mSelectEvent.getTextIndexEnd()).toString());
-        spannable.setSpan(mSpan, mSelectEvent.getTextIndexBegin(), mSelectEvent.getTextIndexEnd(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-
-//        mSelectEvent.getTextView().setText(spannable);
+        mSpannable.setSpan(mSpan, mSelectEvent.getTextIndexBegin(), mSelectEvent.getTextIndexEnd(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
     }
 
-    public void destroy() {
-        resetSelectionInfo();
-        popWindowManager.destroy();
+    public SelectionInfoEvent getSelectionInfo() {
+        return mSelectEvent;
     }
 
     public TextView getTextView() {

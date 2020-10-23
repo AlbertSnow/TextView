@@ -21,12 +21,12 @@ class CursorHandle extends View {
     private int mPadding = 25;
     private boolean isLeft;
 
-    private Manager mHelper;
+    private ClickableTextManager mHelper;
 
     public CursorHandle(Context context, boolean isLeft, int handleColor, int handleSize) {
         super(context);
 
-        mHelper = Manager.getInstance();
+        mHelper = ClickableTextManager.getInstance();
         initSize(handleSize);
 
         this.isLeft = isLeft;
@@ -80,7 +80,7 @@ class CursorHandle extends View {
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
-                mHelper.getOperateView().show(mHelper.getTextView(), mHelper.getSelectionInfo());
+                mHelper.getOperateView().show(mHelper.getSelectionInfo());
                 break;
             case MotionEvent.ACTION_MOVE:
                 mHelper.getOperateView().dismiss();
@@ -92,9 +92,17 @@ class CursorHandle extends View {
         return true;
     }
 
-    public void show(int x, int y) {
+    public void show() {
+        SelectionInfoEvent event = ClickableTextManager.getInstance().getSelectionInfo();
+        int offset = isLeft() ? event.getTextIndexBegin() : event.getTextIndexEnd();
+
+        Layout layout = event.getTextView().getLayout();
+        int x = (int) layout.getPrimaryHorizontal(offset);
+        int y = layout.getLineBottom(layout.getLineForOffset(offset));
+
         mHelper.getTextView().getLocationInWindow(mTempCoors);
-        int offset = isLeft ? mWidth : 0;
+
+        offset = isLeft ? mWidth : 0;
         mPopupWindow.showAtLocation(mHelper.getTextView(), Gravity.NO_GRAVITY, x - offset + getExtraX(), y + getExtraY());
     }
 

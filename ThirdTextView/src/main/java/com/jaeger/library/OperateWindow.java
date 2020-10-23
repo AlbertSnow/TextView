@@ -32,7 +32,8 @@ class OperateWindow {
         mWindow.setClippingEnabled(false);
     }
 
-    public void show(TextView mTextView, SelectionInfoEvent mSelectionInfoEvent) {
+    public void show(SelectionInfoEvent mSelectionInfoEvent) {
+        TextView mTextView = mSelectionInfoEvent.getTextView();
         mTextView.getLocationInWindow(mTempCoors);
         Layout layout = mTextView.getLayout();
         int posX = (int) layout.getPrimaryHorizontal(mSelectionInfoEvent.getTextIndexBegin()) + mTempCoors[0];
