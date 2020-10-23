@@ -39,6 +39,7 @@ public class SelectableTextView extends AppCompatTextView {
     }
 
     private void init() {
+        setTextIsSelectable(false);
         setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
