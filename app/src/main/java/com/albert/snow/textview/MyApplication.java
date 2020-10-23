@@ -3,7 +3,7 @@ package com.albert.snow.textview;
 import android.app.Application;
 import android.content.Context;
 
-import com.jaeger.library.ClickableTextManager;
+import com.jaeger.library.SelectTextManager;
 
 public class MyApplication extends Application {
     private static Application app;
@@ -21,7 +21,7 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        ClickableTextManager.getInstance().init(this);
+        SelectTextManager.getInstance().init(this);
     }
 
 }

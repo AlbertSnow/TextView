@@ -34,7 +34,6 @@ data class SelectionInfoEvent(var isLongClick: Boolean = true,
         }
 
         textView.selectText(textIndexBegin, textIndexEnd);
-
     }
     
 }

@@ -21,8 +21,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun initView() {
         mTvTest = findViewById(R.id.main_second_tv) as TextView
-
-
         addClickableSpan(mTvTest!!)
         addClickableSpan(findViewById(R.id.main_custom_tv))
     }
@@ -38,7 +36,6 @@ class MainActivity : AppCompatActivity() {
         text.setSpan(span, 0, 10, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
 
         textView.text = text
-
     }
 
 }

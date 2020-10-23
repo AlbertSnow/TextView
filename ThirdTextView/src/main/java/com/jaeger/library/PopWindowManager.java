@@ -13,7 +13,7 @@ public class PopWindowManager {
     private int mCursorHandleColor =  0xFF1379D6;
     private int mCursorHandleSizeInDp = 0;
 
-    private boolean isHide = true;
+    private boolean isShow = true;
 
     public void init(Context mContext) {
         mCursorHandleSizeInDp = TextLayoutUtil.dp2px(mContext,24);
@@ -22,7 +22,7 @@ public class PopWindowManager {
     private ViewTreeObserver.OnScrollChangedListener mOnScrollChangedListener = new ViewTreeObserver.OnScrollChangedListener() {
         @Override
         public void onScrollChanged() {
-            if (!isHide) {
+            if (isShow) {
                 hide();
             }
         }
@@ -30,7 +30,7 @@ public class PopWindowManager {
 
     public void show(Context mContext, SelectionInfoEvent event) {
         hide();
-        isHide = false;
+        isShow = true;
 
         if (mStartHandle == null) mStartHandle = new CursorHandle(mContext, true, mCursorHandleColor, mCursorHandleSizeInDp);
         if (mEndHandle == null) mEndHandle = new CursorHandle(mContext, false, mCursorHandleColor, mCursorHandleSizeInDp);
@@ -44,7 +44,7 @@ public class PopWindowManager {
     }
 
     public void hide() {
-        isHide = true;
+        isShow = false;
         if (mOperateWindow != null) {
             mOperateWindow.dismiss();
         }
@@ -57,7 +57,7 @@ public class PopWindowManager {
     }
 
     public void destroy() {
-        SelectionInfoEvent mSelectionInfoEvent = ClickableTextManager.getInstance().getSelectionInfo();
+        SelectionInfoEvent mSelectionInfoEvent = SelectTextManager.getInstance().getSelectionInfo();
         mSelectionInfoEvent.getTextView().getViewTreeObserver().removeOnScrollChangedListener(mOnScrollChangedListener);
 
         hide();
@@ -66,8 +66,8 @@ public class PopWindowManager {
         mOperateWindow = null;
     }
 
-    public boolean isHide() {
-        return isHide;
+    public boolean isShow() {
+        return isShow;
     }
 
     /**

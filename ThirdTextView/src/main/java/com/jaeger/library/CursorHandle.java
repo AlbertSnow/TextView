@@ -21,12 +21,12 @@ class CursorHandle extends View {
     private int mPadding = 25;
     private boolean isLeft;
 
-    private ClickableTextManager mHelper;
+    private SelectTextManager mHelper;
 
     public CursorHandle(Context context, boolean isLeft, int handleColor, int handleSize) {
         super(context);
 
-        mHelper = ClickableTextManager.getInstance();
+        mHelper = SelectTextManager.getInstance();
         initSize(handleSize);
 
         this.isLeft = isLeft;
@@ -93,7 +93,7 @@ class CursorHandle extends View {
     }
 
     public void show() {
-        SelectionInfoEvent event = ClickableTextManager.getInstance().getSelectionInfo();
+        SelectionInfoEvent event = SelectTextManager.getInstance().getSelectionInfo();
         int offset = isLeft() ? event.getTextIndexBegin() : event.getTextIndexEnd();
 
         Layout layout = event.getTextView().getLayout();
@@ -129,17 +129,17 @@ class CursorHandle extends View {
         int offset = TextLayoutUtil.getHysteresisOffset(mHelper.getTextView(), x, y, oldOffset);
 
         if (offset != oldOffset) {
-            mHelper.resetSelectionInfo();
+            mHelper.unSelectTextView();
             if (isLeft) {
                 if (offset > mBeforeDragEnd) {
                     CursorHandle handle = mHelper.getCursorHandle(false);
                     changeDirection();
                     handle.changeDirection();
                     mBeforeDragStart = mBeforeDragEnd;
-                    mHelper.selectText(mBeforeDragEnd, offset);
+                    mHelper.selectTextView(mBeforeDragEnd, offset);
                     handle.updateCursorHandle();
                 } else {
-                    mHelper.selectText(offset, -1);
+                    mHelper.selectTextView(offset, -1);
                 }
             } else {
                 if (offset < mBeforeDragStart) {
@@ -147,10 +147,10 @@ class CursorHandle extends View {
                     handle.changeDirection();
                     changeDirection();
                     mBeforeDragEnd = mBeforeDragStart;
-                    mHelper.selectText(offset, mBeforeDragStart);
+                    mHelper.selectTextView(offset, mBeforeDragStart);
                     handle.updateCursorHandle();
                 } else {
-                    mHelper.selectText(mBeforeDragStart, offset);
+                    mHelper.selectTextView(mBeforeDragStart, offset);
                 }
             }
             updateCursorHandle();
