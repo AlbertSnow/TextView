@@ -52,20 +52,18 @@ public class PopWindowManager {
 
     public void show(Context mContext, SelectionInfoEvent event) {
         TextView mTextView = event.getTextView();
-        hide();
-
-        isHide = false;
-
-        if (mStartHandle == null) mStartHandle = new CursorHandle(mContext, true, mCursorHandleColor, mCursorHandleSizeInDp);
-        if (mEndHandle == null) mEndHandle = new CursorHandle(mContext, false, mCursorHandleColor, mCursorHandleSizeInDp);
-        if (mOperateWindow == null) mOperateWindow = new OperateWindow(mContext);
-
         CharSequence charSequence = mTextView.getText();
         if (charSequence == null || event.getTextIndexBegin() >= mTextView.getText().length()) {
             Log.e(TAG, "Failure:  click not fit condition");
             return;
         }
 
+        hide();
+        isHide = false;
+
+        if (mStartHandle == null) mStartHandle = new CursorHandle(mContext, true, mCursorHandleColor, mCursorHandleSizeInDp);
+        if (mEndHandle == null) mEndHandle = new CursorHandle(mContext, false, mCursorHandleColor, mCursorHandleSizeInDp);
+        if (mOperateWindow == null) mOperateWindow = new OperateWindow(mContext);
 
         Manager.getInstance().selectText(event.getTextIndexBegin(), event.getTextIndexEnd());
         showCursorHandle(mStartHandle);

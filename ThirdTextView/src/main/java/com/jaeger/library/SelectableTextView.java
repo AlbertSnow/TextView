@@ -1,10 +1,11 @@
 package com.jaeger.library;
 
 import android.content.Context;
+import android.text.SpannableStringBuilder;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,13 +15,8 @@ public class SelectableTextView extends AppCompatTextView {
 
     private final static int DEFAULT_SELECTION_LENGTH = 1;
 
-    private boolean isHideWhenScroll;
-    private boolean isHide = true;
-
-    private int mSelectedColor;
     private int mTouchX;
     private int mTouchY;
-
 
     public SelectableTextView(@NonNull Context context) {
         super(context);
@@ -38,7 +34,6 @@ public class SelectableTextView extends AppCompatTextView {
     }
 
     private void init() {
-        setText(getText(), TextView.BufferType.SPANNABLE);
         setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -72,6 +67,7 @@ public class SelectableTextView extends AppCompatTextView {
                 Manager.getInstance().hide();
             }
         });
+
         addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
             @Override
             public void onViewAttachedToWindow(View v) {
@@ -85,5 +81,13 @@ public class SelectableTextView extends AppCompatTextView {
         });
     }
 
+    @Override
+    public void setText(CharSequence text, BufferType type) {
+        if (!(text instanceof SpannableStringBuilder) && !TextUtils.isEmpty(text)) {
+            super.setText(new SpannableStringBuilder(text));
+        } else {
+            super.setText(text, type);
+        }
+    }
 
 }

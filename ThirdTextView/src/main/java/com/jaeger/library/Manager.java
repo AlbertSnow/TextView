@@ -11,7 +11,7 @@ public class Manager {
     private static final Manager instance = new Manager();
 
 
-    private int mSelectedColor =  0xFFAFE1F4;
+    private int mSelectedColor =  0xFF04BA69;
 
     private Application mContext;
 
