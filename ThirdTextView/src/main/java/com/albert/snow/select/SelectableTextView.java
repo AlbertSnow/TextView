@@ -7,6 +7,7 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.BackgroundColorSpan;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -44,8 +45,15 @@ public class SelectableTextView extends AppCompatTextView {
             @Override
             public boolean onLongClick(View v) {
 
-                int startOffset = TextLayoutUtil.getPreciseOffset(SelectableTextView.this, mTouchX, mTouchY);
-                int endOffset = startOffset + DEFAULT_SELECTION_LENGTH;
+                int[] indexArray = TextLayoutUtil.getSelectWordIndexArray(mTouchX, mTouchY, SelectableTextView.this);
+
+                if (indexArray == null) {
+                    Log.e(SelectTextManager.TAG, "index Array null, return");
+                    return true;
+                }
+
+                int startOffset = indexArray[0];
+                int endOffset = indexArray[1];
 
                 if (startOffset == -1 || endOffset == -1) {
                     return true;

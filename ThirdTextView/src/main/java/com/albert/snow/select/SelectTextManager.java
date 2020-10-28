@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 public class SelectTextManager {
-    private static final String TAG = "ClickableText";
+    public static final String TAG = "ClickableText";
 
     private static final SelectTextManager instance = new SelectTextManager();
 

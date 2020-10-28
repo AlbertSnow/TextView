@@ -2,7 +2,10 @@ package com.albert.snow.select;
 
 import android.content.Context;
 import android.text.Layout;
+import android.text.TextUtils;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
 
 /**
  * Created by Jaeger on 16/8/31.
@@ -33,6 +36,42 @@ class TextLayoutUtil {
             return -1;
         }
     }
+
+    @Nullable
+    public static int[] getSelectWordIndexArray(int eventX, int eventY, TextView textView) {
+        if (textView == null || TextUtils.isEmpty(textView.getText())) {
+            return null;
+        }
+
+        String text = textView.getText().toString();
+        int[] result = new int[2];
+
+        int startOffset = TextLayoutUtil.getPreciseOffset(textView, eventX, eventY);
+        if (startOffset < 0 || startOffset >= text.length()) {
+            return null;
+        }
+        int endOffset = startOffset + 1;
+
+        if (isLetter(text.charAt(startOffset))) {
+            while (startOffset > 0 && isLetter(text.charAt(startOffset - 1))) {
+                startOffset--;
+            }
+
+            while(endOffset < text.length() && isLetter(text.charAt(endOffset))) {
+                endOffset++;
+            }
+        }
+
+        result[0] = startOffset;
+        result[1] = endOffset;
+
+        return result;
+    }
+
+    public static boolean isLetter(char ch) {
+        return Character.isUpperCase(ch) || Character.isLowerCase(ch);
+    }
+
 
     public static int getHysteresisOffset(TextView textView, int x, int y, int previousOffset) {
         final Layout layout = textView.getLayout();
