@@ -10,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupWindow
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
@@ -34,14 +33,14 @@ class MainActivity : AppCompatActivity() {
         addClickableSpan(findViewById(R.id.main_custom_tv))
 
         initPopContentView()
-        initPopWindow();
+        initPopWindow()
     }
 
     private fun initPopContentView() {
         popContentView = LayoutInflater.from(baseContext).inflate(R.layout.pop_item, null, false)
 
         popContentView.findViewById<View>(R.id.main_update_btn)?.setOnClickListener {
-            mPopWindow.update(0, 20, -1, -1, true)
+            mPopWindow.update(-0, 50, -1, -1, true)
         }
 
         popContentView.findViewById<View>(R.id.main_show_at_btn)?.setOnClickListener {
@@ -51,7 +50,7 @@ class MainActivity : AppCompatActivity() {
     private fun initPopWindow() {
         mPopWindow = PopupWindow(
             popContentView,
-            60,
+            ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
     }
@@ -82,8 +81,8 @@ class MainActivity : AppCompatActivity() {
             mPopWindow.dismiss()
         }
         var x = 0;
-        var y = 50;
-        mPopWindow.showAtLocation(mTvTest, Gravity.LEFT, x, y)
+        var y = 400;
+        mPopWindow.showAtLocation(mTvTest, Gravity.TOP or Gravity.LEFT, x, y)
     }
 
     fun popRight(view: View) {
@@ -92,7 +91,16 @@ class MainActivity : AppCompatActivity() {
         }
         var x = 0;
         var y = 50;
-        mPopWindow.showAtLocation(mTvTest, Gravity.RIGHT, x, y)
+        mPopWindow.showAtLocation(mTvTest, Gravity.TOP or Gravity.RIGHT, x, y)
+    }
+
+    fun popGravityNone(view: View) {
+        if (mPopWindow.isShowing) {
+            mPopWindow.dismiss()
+        }
+        var x = 0;
+        var y = 50;
+        mPopWindow.showAtLocation(mTvTest, Gravity.NO_GRAVITY, x, y)
     }
 
 
