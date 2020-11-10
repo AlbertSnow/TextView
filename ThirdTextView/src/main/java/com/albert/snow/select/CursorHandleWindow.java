@@ -15,9 +15,9 @@ class CursorHandleWindow extends View {
     private Paint mPaint;
     private int mCursorHandleSize;
 
-    private int mCircleRadius = mCursorHandleSize / 2;
-    private int mWidth = mCircleRadius * 2;
-    private int mHeight = mCircleRadius * 2;
+    private int mCursorRadius = mCursorHandleSize / 2;
+    private int mCursorWidthNoPadding = mCursorRadius * 2;
+    private int mCursorHeightNoPadding = mCursorRadius * 2;
     private int mPadding = 25;
     private boolean isLeft;
 
@@ -35,16 +35,16 @@ class CursorHandleWindow extends View {
 
         mPopupWindow = new PopupWindow(this);
         mPopupWindow.setClippingEnabled(false);
-        mPopupWindow.setWidth(mWidth + mPadding * 2);
-        mPopupWindow.setHeight(mHeight + mPadding / 2);
+        mPopupWindow.setWidth(mCursorWidthNoPadding + mPadding * 2);
+        mPopupWindow.setHeight(mCursorHeightNoPadding + mPadding / 2);
         invalidate();
     }
 
     private void initSize(int handleSize) {
         mCursorHandleSize = handleSize;
-        mCircleRadius = mCursorHandleSize / 2;
-        mWidth = mCircleRadius * 2;
-        mHeight = mCircleRadius * 2;
+        mCursorRadius = mCursorHandleSize / 2;
+        mCursorWidthNoPadding = mCursorRadius * 2;
+        mCursorHeightNoPadding = mCursorRadius * 2;
     }
 
     public boolean isLeft() {
@@ -53,16 +53,16 @@ class CursorHandleWindow extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        canvas.drawCircle(mCircleRadius + mPadding, mCircleRadius, mCircleRadius, mPaint);
+        canvas.drawCircle(mCursorRadius + mPadding, mCursorRadius, mCursorRadius, mPaint);
         if (isLeft) {
-            canvas.drawRect(mCircleRadius + mPadding, 0, mCircleRadius * 2 + mPadding, mCircleRadius, mPaint);
+            canvas.drawRect(mCursorRadius + mPadding, 0, mCursorRadius * 2 + mPadding, mCursorRadius, mPaint);
         } else {
-            canvas.drawRect(mPadding, 0, mCircleRadius + mPadding, mCircleRadius, mPaint);
+            canvas.drawRect(mPadding, 0, mCursorRadius + mPadding, mCursorRadius, mPaint);
         }
     }
 
-    private int mAdjustX;
-    private int mAdjustY;
+    private int mDownEventX;
+    private int mDownEventY;
 
     private int mBeforeDragStart;
     private int mBeforeDragEnd;
@@ -75,8 +75,8 @@ class CursorHandleWindow extends View {
             case MotionEvent.ACTION_DOWN:
                 mBeforeDragStart = mHelper.getSelectionInfo().getTextIndexBegin();
                 mBeforeDragEnd = mHelper.getSelectionInfo().getTextIndexEnd();
-                mAdjustX = (int) event.getX();
-                mAdjustY = (int) event.getY();
+                mDownEventX = (int) event.getX();
+                mDownEventY = (int) event.getY();
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
@@ -86,7 +86,7 @@ class CursorHandleWindow extends View {
                 mHelper.getOperateView().dismiss();
                 int rawX = (int) event.getRawX();
                 int rawY = (int) event.getRawY();
-                update(rawX + mAdjustX - mWidth, rawY + mAdjustY - mHeight);
+                update(rawX + mDownEventX - mCursorWidthNoPadding, rawY + mDownEventY - mCursorHeightNoPadding);
                 break;
         }
         return true;
@@ -102,7 +102,7 @@ class CursorHandleWindow extends View {
 
         mHelper.getTextView().getLocationInWindow(mTempCoors);
 
-        offset = isLeft ? mWidth : 0;
+        offset = isLeft ? mCursorWidthNoPadding : 0;
         mPopupWindow.showAtLocation(mHelper.getTextView(), Gravity.NO_GRAVITY, x - offset + getExtraX(), y + getExtraY());
     }
 
@@ -161,7 +161,7 @@ class CursorHandleWindow extends View {
         mHelper.getTextView().getLocationInWindow(mTempCoors);
         Layout layout = mHelper.getTextView().getLayout();
         if (isLeft) {
-            mPopupWindow.update((int) layout.getPrimaryHorizontal(mHelper.getSelectionInfo().getTextIndexBegin()) - mWidth + getExtraX(),
+            mPopupWindow.update((int) layout.getPrimaryHorizontal(mHelper.getSelectionInfo().getTextIndexBegin()) - mCursorWidthNoPadding + getExtraX(),
                     layout.getLineBottom(layout.getLineForOffset(mHelper.getSelectionInfo().getTextIndexBegin())) + getExtraY(), -1, -1);
         } else {
             mPopupWindow.update((int) layout.getPrimaryHorizontal(mHelper.getSelectionInfo().getTextIndexEnd()) + getExtraX(),
