@@ -124,6 +124,7 @@ class CursorHandleWindow extends View {
             oldOffset = mHelper.getSelectionInfo().getTextIndexEnd();
         }
 
+        x -= mTempCoors[0];
         y -= mTempCoors[1];
 
         int offset = TextLayoutUtil.getHysteresisOffset(mHelper.getTextView(), x, y, oldOffset);
