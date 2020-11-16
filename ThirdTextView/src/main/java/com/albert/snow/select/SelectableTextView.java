@@ -1,7 +1,6 @@
 package com.albert.snow.select;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -11,13 +10,10 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatTextView;
-
-import java.lang.reflect.Field;
 
 public class SelectableTextView extends AppCompatTextView {
 
@@ -103,42 +99,17 @@ public class SelectableTextView extends AppCompatTextView {
 //        Log.i("testFont", "size: " + fontFile.length());
 
 //        final Typeface tf = Typeface.createFromFile("/system/fonts/VivoFont.ttf");
-        final Typeface tf = Typeface.createFromFile("/system/fonts/Padauk.ttf");
+//        final Typeface tf = Typeface.createFromFile("/system/fonts/Padauk.ttf");
 //        final Typeface tf = Typeface.createFromFile("/system/fonts/Roboto-Italic.ttf");
-        postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                setTypeface(tf);
-                Toast.makeText(context, "Hello change", Toast.LENGTH_LONG).show();
-            }
-        }, 1000 * 2);
-        setTypeface(tf);
-    }
-
-//    public static void getDefaultFontType(Context context, String defaultFontNameToOverride, String customFontFileNameInAssets) {
-//        try {
-//            final Typeface customFontTypeface = Typeface.createFromAsset(context.getAssets(), customFontFileNameInAssets);
-//
-//            final Field defaultFontTypefaceField = Typeface.class.getDeclaredField(defaultFontNameToOverride);
-//            defaultFontTypefaceField.setAccessible(true);
-//            defaultFontTypefaceField.set(null, customFontTypeface);
-//            defaultFontTypefaceField.get(null);
-//
-//        } catch (Exception e) {
-//
-//        }
+//        postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                setTypeface(tf);
+//                Toast.makeText(context, "Hello change", Toast.LENGTH_LONG).show();
+//            }
+//        }, 1000 * 2);
+//        setTypeface(tf);
 //    }
-
-    public static void setDefaultFontType(Context context, String defaultFontNameToOverride, String customFontFileNameInAssets) {
-        try {
-            final Typeface customFontTypeface = Typeface.createFromAsset(context.getAssets(), customFontFileNameInAssets);
-
-            final Field defaultFontTypefaceField = Typeface.class.getDeclaredField(defaultFontNameToOverride);
-            defaultFontTypefaceField.setAccessible(true);
-            defaultFontTypefaceField.set(null, customFontTypeface);
-        } catch (Exception e) {
-
-        }
     }
 
     @Override
